@@ -9,11 +9,12 @@ import edu.wpi.first.wpilibj.motorcontrol.Jaguar;
 import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
-  /* Seated person facing forward:
-    3  4
-  1  ^^  2
-    5  6
+  /* Motor Orientation:
+   fl fr
+  l  ^  r
+   rl rr
   */
+  // TODO: Test Driving Forward/Back (see Drive.md)
   private final Jaguar leftJaguar = new Jaguar(Constants.PWM.LEFT_JAGUAR_CHANNEL);
   private final Jaguar rightJaguar = new Jaguar(Constants.PWM.RIGHT_JAGUAR_CHANNEL);
   private final Jaguar frontLeftJaguar = new Jaguar(Constants.PWM.FRONT_LEFT_JAGUAR_CHANNEL);
@@ -28,21 +29,7 @@ public class Drive extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  /* Driving forward:
-  * Set l and r to forward
-  * Set fl to forward
-  * Set fr to backward (drive against fl)
-  * Set rl to backward
-  * Set rr to forward (drive against rl)
-  */
-  /* What does that look like?
-  * l.set(setpoint)
-  * r.set(setpoint)
-  * fl.set(setpoint)
-  * fr.set(-setpoint)
-  * rl.set(-setpoint)
-  * rr.set(setpoint)
-  * That should drive forward/left/right/backward
-  * TODO: TEST (during lunch?)
-  */
+  // TODO: Make these spin motors correct direction (test)
+  private void setCCW(Jaguar motor, double speed) { motor.set(speed); }
+  private void setCW(Jaguar motor, double speed) { motor.set(-speed); }
 }
