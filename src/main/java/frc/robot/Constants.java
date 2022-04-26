@@ -22,4 +22,29 @@ public final class Constants {
         public static final int REAR_LEFT_JAGUAR_CHANNEL = 5;
         public static final int REAR_RIGHT_JAGUAR_CHANNEL = 6;
     }
+    public final class Xbox {
+        public static final double JOYSTICK_DRIFT_TOLERANCE = 0.1;
+        public static final int DRIVER_PORT = 0;
+        public static final int OPERATOR_PORT = 1;
+        public static final int LEFT_STICK_X_AXIS = 0;
+        public static final int LEFT_STICK_Y_AXIS = 1;
+        public static final int RIGHT_STICK_X_AXIS = 4;
+        public static final int RIGHT_STICK_Y_AXIS = 5;
+        public static final int LEFT_TRIGGER_AXIS = 2;
+        public static final int RIGHT_TRIGGER_AXIS = 3;
+        public static final int A_BUTTON = 1;
+        public static final int B_BUTTON = 2;
+        public static final int X_BUTTON = 3;
+        public static final int Y_BUTTON = 4;
+        public static final int START_BUTTON = 8;
+        public static final int BACK_BUTTON = 7;
+        public static final int LEFT_BUMPER = 5;
+        public static final int RIGHT_BUMPER = 6;
+        public static final int LEFT_STICK_BUTTON = 9;
+        public static final int RIGHT_STICK_BUTTON = 10;
+        public static final int POV_UP_BUTTON = 0;
+        public static final int POV_DOWN_BUTTON = 180;
+        public static final int POV_RIGHT_BUTTON = 90;
+        public static final int POV_LEFT_BUTTON = 270;
+    }
 }

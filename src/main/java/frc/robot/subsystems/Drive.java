@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Jaguar;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
@@ -21,13 +22,18 @@ public class Drive extends SubsystemBase {
   private final Jaguar frontRightJaguar = new Jaguar(Constants.PWM.FRONT_RIGHT_JAGUAR_CHANNEL);
   private final Jaguar rearLeftJaguar = new Jaguar(Constants.PWM.REAR_LEFT_JAGUAR_CHANNEL);
   private final Jaguar rearRightJaguar = new Jaguar(Constants.PWM.REAR_RIGHT_JAGUAR_CHANNEL);
+  private final XboxController m_stick;
 
   /** Creates a new Drive. */
-  public Drive() {}
+  public Drive(XboxController stick) {
+    m_stick = stick;
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    leftJaguar.set(m_stick.getRawAxis(Constants.Xbox.LEFT_STICK_Y_AXIS));
+    //rightJaguar.set(-m_stick.getRawAxis(Constants.Xbox.LEFT_STICK_Y_AXIS));
   }
   // TODO: Make these spin motors correct direction (test)
   private void setCCW(Jaguar motor, double speed) { motor.set(speed); }
