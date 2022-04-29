@@ -13,8 +13,8 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
     public final class PWM {
-        // TODO: Check actual wiring
         public static final int LEFT_JAGUAR_CHANNEL = 2;
         public static final int RIGHT_JAGUAR_CHANNEL = 5;
         public static final int FRONT_LEFT_JAGUAR_CHANNEL = 3;
@@ -22,6 +22,7 @@ public final class Constants {
         public static final int REAR_LEFT_JAGUAR_CHANNEL = 1;
         public static final int REAR_RIGHT_JAGUAR_CHANNEL = 4;
     }
+
     public final class Xbox {
         public static final double JOYSTICK_DRIFT_TOLERANCE = 0.1;
         public static final int DRIVER_PORT = 0;
