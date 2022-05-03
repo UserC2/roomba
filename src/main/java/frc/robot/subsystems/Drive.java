@@ -35,7 +35,7 @@ public class Drive extends SubsystemBase {
     double rotationRate = m_stick.getRawAxis(Constants.Xbox.RIGHT_STICK_X_AXIS);
     double vb = Math.sqrt(Math.pow(axisX, 2) + Math.pow(axisY, 2));
     double angleRadians = -(Math.atan2(axisX, axisY));
-    double gyroReading = 130.0;
+    double gyroReading = 180; // 130.0;
     holonomicDrive(vb, angleRadians, rotationRate, gyroReading);
   }
 
@@ -65,13 +65,13 @@ public class Drive extends SubsystemBase {
       rightJaguar.set(vb * -1 * Math.cos(angleRadians) + rotationRate);
       // TODO: find these pwm values
       // pwm 1:
-      // pwm1.set(vb * (0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
-      // // pwm 2:
-      // pwm2.set(vb * (-0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
-      // // pwm 4:
-      // pwm4.set(vb * (-0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
-      // // pwm 5:
-      // pwm5.set(vb * (0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+      frontLeftJaguar.set(vb * (0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+      // // // pwm 2:
+      frontRightJaguar.set(vb * (-0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+      // // // pwm 4:
+      rearRightJaguar.set(vb * (-0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+      // // // pwm 5:
+      rearLeftJaguar.set(vb * (0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
   }
 
   public void setAll(double speed) { 
