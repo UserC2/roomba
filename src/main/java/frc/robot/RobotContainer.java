@@ -6,14 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.HolonomicDrive;
+// import frc.robot.commands.HolonomicDrive;
 import frc.robot.subsystems.Drive;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 // Structure of the robot (subsystems, commands, and button) goes in here
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final XboxController m_stick = new XboxController(Constants.Xbox.DRIVER_PORT);
   public static final Drive m_driveSubsystem = new Drive(m_stick);
+  public static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

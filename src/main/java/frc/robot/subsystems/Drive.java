@@ -7,7 +7,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Jaguar;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class Drive extends SubsystemBase {
   /* Motor Orientation:
@@ -35,8 +37,14 @@ public class Drive extends SubsystemBase {
     double rotationRate = m_stick.getRawAxis(Constants.Xbox.RIGHT_STICK_X_AXIS);
     double vb = Math.sqrt(Math.pow(axisX, 2) + Math.pow(axisY, 2));
     double angleRadians = -(Math.atan2(axisX, axisY));
-    double gyroReading = 180; // 130.0;
-    holonomicDrive(vb, angleRadians, rotationRate, gyroReading);
+    //double gyroReading = 180; // 130.0;
+    double gyroReading = RobotContainer.gyro.getAngle();
+    if (m_stick.getAButtonPressed()) RobotContainer.gyro.reset();
+    SmartDashboard.putNumber("Gyro", gyroReading);
+    //holonomicDrive(vb, angleRadians, rotationRate, gyroReading);
+    if (m_stick.getXButton()) setAll(1);
+    else if (m_stick.getYButton()) setAll(-1);
+    else setAll(0);
   }
 
   public void holonomicDrive(double vb, double angleRadians, double rotationRate, double gyroReading) {
