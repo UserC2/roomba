@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.motorcontrol.Jaguar;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -17,12 +17,12 @@ public class Drive extends SubsystemBase {
   l  ^  r
    rl rr
   */
-  private final Jaguar leftJaguar = new Jaguar(Constants.PWM.LEFT_JAGUAR_CHANNEL);
-  private final Jaguar rightJaguar = new Jaguar(Constants.PWM.RIGHT_JAGUAR_CHANNEL);
-  private final Jaguar frontLeftJaguar = new Jaguar(Constants.PWM.FRONT_LEFT_JAGUAR_CHANNEL);
-  private final Jaguar frontRightJaguar = new Jaguar(Constants.PWM.FRONT_RIGHT_JAGUAR_CHANNEL);
-  private final Jaguar rearLeftJaguar = new Jaguar(Constants.PWM.REAR_LEFT_JAGUAR_CHANNEL);
-  private final Jaguar rearRightJaguar = new Jaguar(Constants.PWM.REAR_RIGHT_JAGUAR_CHANNEL);
+  private final Spark leftSpark = new Spark(Constants.PWM.LEFT_SPARK_CHANNEL);
+  private final Spark rightSpark = new Spark(Constants.PWM.RIGHT_SPARK_CHANNEL);
+  private final Spark frontLeftSpark = new Spark(Constants.PWM.FRONT_LEFT_SPARK_CHANNEL);
+  private final Spark frontRightSpark = new Spark(Constants.PWM.FRONT_RIGHT_SPARK_CHANNEL);
+  private final Spark rearLeftSpark = new Spark(Constants.PWM.REAR_LEFT_SPARK_CHANNEL);
+  private final Spark rearRightSpark = new Spark(Constants.PWM.REAR_RIGHT_SPARK_CHANNEL);
   private final XboxController m_stick;
 
   /** Creates a new Drive. */
@@ -32,6 +32,11 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //teleopHolonomicDrive();
+    setAll(0.15);
+  }
+
+  public void teleopHolonomicDrive() {
     double axisX = m_stick.getRawAxis(Constants.Xbox.LEFT_STICK_X_AXIS);
     double axisY = m_stick.getRawAxis(Constants.Xbox.LEFT_STICK_Y_AXIS);
     double rotationRate = m_stick.getRawAxis(Constants.Xbox.RIGHT_STICK_X_AXIS);
@@ -41,10 +46,7 @@ public class Drive extends SubsystemBase {
     double gyroReading = RobotContainer.gyro.getAngle();
     if (m_stick.getAButtonPressed()) RobotContainer.gyro.reset();
     SmartDashboard.putNumber("Gyro", gyroReading);
-    //holonomicDrive(vb, angleRadians, rotationRate, gyroReading);
-    if (m_stick.getXButton()) setAll(1);
-    else if (m_stick.getYButton()) setAll(-1);
-    else setAll(0);
+    holonomicDrive(vb, angleRadians, rotationRate, gyroReading);
   }
 
   public void holonomicDrive(double vb, double angleRadians, double rotationRate, double gyroReading) {
@@ -69,34 +71,44 @@ public class Drive extends SubsystemBase {
         angleRadians = (2 * Math.PI) + angleRadians;
       }
 
-      leftJaguar.set(vb * Math.cos(angleRadians) + rotationRate);
-      rightJaguar.set(vb * -1 * Math.cos(angleRadians) + rotationRate);
+      leftSpark.set(vb * Math.cos(angleRadians) + rotationRate);
+      rightSpark.set(vb * -1 * Math.cos(angleRadians) + rotationRate);
       // TODO: find these pwm values
       // pwm 1:
-      frontLeftJaguar.set(vb * (0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+      frontLeftSpark.set(vb * (0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
       // // // pwm 2:
-      frontRightJaguar.set(vb * (-0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+      frontRightSpark.set(vb * (-0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
       // // // pwm 4:
-      rearRightJaguar.set(vb * (-0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+      rearRightSpark.set(vb * (-0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
       // // // pwm 5:
-      rearLeftJaguar.set(vb * (0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+      rearLeftSpark.set(vb * (0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
   }
 
+  public void calibrateJaguars() {
+    if (m_stick.getXButton()) setAll(1);
+    else if (m_stick.getYButton()) setAll(-1);
+    else setAll(0);
+  }
+
+  /* To check PWM ports:
+  * setAll(0.15);
+  * Unplug each motor controller, whichever stops = that PWM id
+  */
   public void setAll(double speed) { 
-    leftJaguar.set(speed);
-    rightJaguar.set(speed);
-    frontLeftJaguar.set(speed);
-    frontRightJaguar.set(speed);
-    rearLeftJaguar.set(speed);
-    rearRightJaguar.set(speed);
+    leftSpark.set(speed);
+    rightSpark.set(speed);
+    frontLeftSpark.set(speed);
+    frontRightSpark.set(speed);
+    rearLeftSpark.set(speed);
+    rearRightSpark.set(speed);
   }
 
   public void driveFWDREV(double speed) {
-    leftJaguar.set(-speed);
-    rightJaguar.set(speed);
-    frontLeftJaguar.set(-speed * 0.5);
-    frontRightJaguar.set(speed * 0.5);
-    rearLeftJaguar.set(-speed * 0.5);
-    rearRightJaguar.set(speed * 0.5);
+    leftSpark.set(-speed);
+    rightSpark.set(speed);
+    frontLeftSpark.set(-speed * 0.5);
+    frontRightSpark.set(speed * 0.5);
+    rearLeftSpark.set(-speed * 0.5);
+    rearRightSpark.set(speed * 0.5);
   }
 }

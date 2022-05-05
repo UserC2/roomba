@@ -14,13 +14,14 @@ package frc.robot;
  */
 public final class Constants {
 
+    // TEST ALL OF THESE AGAIN
     public final class PWM {
-        public static final int LEFT_JAGUAR_CHANNEL = 2;
-        public static final int RIGHT_JAGUAR_CHANNEL = 5;
-        public static final int FRONT_LEFT_JAGUAR_CHANNEL = 3;
-        public static final int FRONT_RIGHT_JAGUAR_CHANNEL = 0;
-        public static final int REAR_LEFT_JAGUAR_CHANNEL = 1;
-        public static final int REAR_RIGHT_JAGUAR_CHANNEL = 4;
+        public static final int LEFT_SPARK_CHANNEL = 2;
+        public static final int RIGHT_SPARK_CHANNEL = 5;
+        public static final int FRONT_LEFT_SPARK_CHANNEL = 3;
+        public static final int FRONT_RIGHT_SPARK_CHANNEL = 0;
+        public static final int REAR_LEFT_SPARK_CHANNEL = 1;
+        public static final int REAR_RIGHT_SPARK_CHANNEL = 4;
     }
 
     public final class Xbox {
