@@ -6,9 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.XboxController;
-// import frc.robot.commands.HolonomicDrive;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro; // analog gyro
+import edu.wpi.first.wpilibj.SerialPort; // navx usb
+import com.kauailabs.navx.frc.AHRS; // navx micro
 import frc.robot.subsystems.Drive;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 // Structure of the robot (subsystems, commands, and button) goes in here
 public class RobotContainer {
@@ -16,7 +17,8 @@ public class RobotContainer {
   public static final XboxController m_stick = new XboxController(Constants.Xbox.DRIVER_PORT);
   public static final Drive m_driveSubsystem = new Drive(m_stick);
   public static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-  
+  public static final AHRS navx = new AHRS(SerialPort.Port.kUSB1);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings

@@ -32,56 +32,55 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //teleopHolonomicDrive();
-    setAll(0.15);
+    teleopHolonomicDrive(false);
+    //setAll(0.15);
   }
 
-  public void teleopHolonomicDrive() {
+  public void teleopHolonomicDrive(boolean isFieldOriented) {
     double axisX = m_stick.getRawAxis(Constants.Xbox.LEFT_STICK_X_AXIS);
     double axisY = m_stick.getRawAxis(Constants.Xbox.LEFT_STICK_Y_AXIS);
     double rotationRate = m_stick.getRawAxis(Constants.Xbox.RIGHT_STICK_X_AXIS);
     double vb = Math.sqrt(Math.pow(axisX, 2) + Math.pow(axisY, 2));
     double angleRadians = -(Math.atan2(axisX, axisY));
-    //double gyroReading = 180; // 130.0;
-    double gyroReading = RobotContainer.gyro.getAngle();
-    if (m_stick.getAButtonPressed()) RobotContainer.gyro.reset();
+    double gyroReading = isFieldOriented ? RobotContainer.navx.getYaw() + Constants.gyroAngleOffset : Constants.gyroAngleOffset;
+    if (m_stick.getAButtonPressed()) RobotContainer.navx.reset();
+    SmartDashboard.putBoolean("NavX Connected", RobotContainer.navx.isConnected());
     SmartDashboard.putNumber("Gyro", gyroReading);
     holonomicDrive(vb, angleRadians, rotationRate, gyroReading);
   }
 
   public void holonomicDrive(double vb, double angleRadians, double rotationRate, double gyroReading) {
-      final double movedeadband = 0.2; // deadband1
-      final double rotatedeadband = 0.2; // deadband2
-      //final double moveSensitivity = 1.0; // Never used?
-      double multiplier = (Math.abs(rotationRate) / 2);
-      if (Math.abs(rotationRate) < rotatedeadband) {
-        rotationRate = 0.0;
-      }
-      else {
-        rotationRate = rotationRate * multiplier;
-      }
-      if (Math.abs(vb) < movedeadband) {
-        vb = 0.0;
-      }
-      else {
-        vb = vb * (1 - multiplier);
-      }
-      angleRadians = angleRadians - (gyroReading * Math.PI / 180);
-      if (angleRadians < 0) {
-        angleRadians = (2 * Math.PI) + angleRadians;
-      }
+    final double movedeadband = 0.2; // deadband1
+    final double rotatedeadband = 0.2; // deadband2
+    //final double moveSensitivity = 1.0; // Never used?
+    double multiplier = (Math.abs(rotationRate) / 2);
+    if (Math.abs(rotationRate) < rotatedeadband) {
+      rotationRate = 0.0;
+    }
+    else {
+      rotationRate = rotationRate * multiplier;
+    }
+    if (Math.abs(vb) < movedeadband) {
+      vb = 0.0;
+    }
+    else {
+      vb = vb * (1 - multiplier);
+    }
+    angleRadians = angleRadians - (gyroReading * Math.PI / 180);
+    if (angleRadians < 0) {
+      angleRadians = (2 * Math.PI) + angleRadians;
+    }
 
-      leftSpark.set(vb * Math.cos(angleRadians) + rotationRate);
-      rightSpark.set(vb * -1 * Math.cos(angleRadians) + rotationRate);
-      // TODO: find these pwm values
-      // pwm 1:
-      frontLeftSpark.set(vb * (0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
-      // // // pwm 2:
-      frontRightSpark.set(vb * (-0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
-      // // // pwm 4:
-      rearRightSpark.set(vb * (-0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
-      // // // pwm 5:
-      rearLeftSpark.set(vb * (0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+    leftSpark.set(vb * Math.cos(angleRadians) + rotationRate);
+    rightSpark.set(vb * -1 * Math.cos(angleRadians) + rotationRate);
+    // pwm 1:
+    frontLeftSpark.set(vb * (0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+    // pwm 2:
+    frontRightSpark.set(vb * (-0.5 * Math.cos(angleRadians) + Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+    // pwm 4:
+    rearRightSpark.set(vb * (-0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
+    // pwm 5:
+    rearLeftSpark.set(vb * (0.5 * Math.cos(angleRadians) - Math.sqrt(3) / 2 * Math.sin(angleRadians)) + rotationRate);
   }
 
   public void calibrateJaguars() {

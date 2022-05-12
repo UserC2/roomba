@@ -18,7 +18,8 @@ package frc.robot;
  */
 public final class Constants {
 
-    // TEST ALL OF THESE AGAIN
+    public static final double gyroAngleOffset = 130;
+    
     public final class PWM {
         public static final int LEFT_SPARK_CHANNEL = 1;
         public static final int RIGHT_SPARK_CHANNEL = 4;
